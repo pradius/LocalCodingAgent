@@ -1,0 +1,13 @@
+# Core dependencies
+fastapi
+langchain
+langchain-community
+langchain-core
+langchain-openai
+python-dotenv
+
+# For development and testing
+pytest
+flake8
+black
+
