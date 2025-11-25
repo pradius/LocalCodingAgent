@@ -1,69 +1,101 @@
 # Local Coding Agent
 
-**Local Coding Agent** is a Python-based AI agent designed to help with various coding tasks directly on your local machine. It can understand and execute complex commands, interact with your file system, execute code, and even analyze images. This agent is built to be a powerful and extensible tool for developers, researchers, and anyone who wants to leverage AI for their coding needs.
+[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Overview
+
+Local Coding Agent is a Python-based AI agent designed to understand and execute coding-related tasks. It leverages Large Language Models (LLMs) and a predefined set of tools to automate software development workflows, from code generation and modification to analysis and testing.
+
+The agent is built with modularity and extensibility in mind, allowing developers to easily integrate new LLM providers, add custom tools, and tailor the agent's behavior to specific needs.
 
 ## Features
 
-*   **Modular Architecture:** The agent is designed with a clear separation of concerns, making it easy to extend and maintain.
-*   **Planning and Execution:** It uses a planner to break down complex tasks into smaller, manageable steps and an executor to run them.
-*   **Extensible Tools:** The agent can use a variety of tools, including a file system tool, a shell tool, and a code execution tool. Adding new tools is straightforward.
-*   **Memory:** The agent maintains a memory of its actions and observations, allowing it to learn from its experience and improve its performance over time.
-*   **Vision Capabilities:** The agent can analyze images and use them to make decisions.
-*   **Configuration:** The agent's behavior can be easily configured using a YAML file.
-*   **Logging:** The agent logs its actions and observations, making it easy to debug and monitor its behavior.
+- **Modular Architecture**: A clean separation of concerns between the agent's core logic, LLM interactions, and tool management.
+- **Extensible Toolset**: Easily add new tools for the agent to use (e.g., file system access, code linting, running tests).
+- **Pluggable LLM Providers**: Abstracted LLM interface allows for swapping different language models (e.g., OpenAI, Anthropic, local models) with minimal code changes.
+- **Test-Driven Development**: The project is set up with a comprehensive testing suite using `pytest`.
+- **Modern Python Packaging**: Uses `pyproject.toml` for dependency management and packaging.
+
+## Project Structure
+
+```
+repo-LocalCodingAgent/
+├── src/
+│   └── local_coding_agent/
+│       ├── __init__.py
+│       ├── agent/
+│       │   ├── __init__.py
+│       │   └── agent.py        # Core agent logic
+│       ├── llm/
+│       │   ├── __init__.py
+│       │   └── llm_provider.py # Abstractions for LLM providers
+│       ├── tools/
+│       │   ├── __init__.py
+│       │   └── tool_manager.py # Tool registration and execution
+│       └── main.py             # Application entry point
+├── tests/
+│   ├── __init__.py
+│   ├── agent/
+│   │   └── test_agent.py
+│   └── tools/
+│       └── test_tool_manager.py
+├── .gitignore
+├── pyproject.toml
+└── README.md
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-*   Python 3.8 or higher
-*   Pip
+- Python 3.9+
+- pip
 
 ### Installation
 
-1.  Clone the repository:
-
+1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/local-coding-agent.git
-    cd local-coding-agent
+    git clone https://github.com/your-username/repo-LocalCodingAgent.git
+    cd repo-LocalCodingAgent
     ```
 
-2.  Install the required packages:
-
+2.  **Create and activate a virtual environment:**
     ```bash
-    pip install -r requirements.txt
+    python3 -m venv .venv
+    source .venv/bin/activate
     ```
 
-3.  Set up your configuration file:
-
-    *   Rename `config.yaml.example` to `config.yaml`.
-    *   Add your API keys and other settings to `config.yaml`.
+3.  **Install the project in editable mode with development dependencies:**
+    ```bash
+    pip install -e ".[dev]"
+    ```
 
 ### Usage
 
-To run the agent, use the following command:
+The main entry point of the application is `src/local_coding_agent/main.py`.
 
+To run the agent, you can execute the main module:
 ```bash
-python main.py --task "Your task here"
+python -m src.local_coding_agent.main
 ```
 
-## Architecture
+You will need to configure your LLM provider and API keys as required.
 
-The agent's architecture is composed of the following components:
+## Development
 
-*   **Agent:** The main component that orchestrates the other components.
-*   **Planner:** Breaks down complex tasks into smaller, manageable steps.
-*   **Executor:** Executes the steps planned by the planner.
-*   **Memory:** Stores the agent's actions and observations.
-*   **Tools:** A collection of tools that the agent can use to perform various tasks.
-*   **Vision:** The component that allows the agent to analyze images.
+### Running Tests
 
-The architecture is designed to be modular and extensible, making it easy to add new features and capabilities.
+To ensure the integrity of the codebase, run the test suite using `pytest`:
 
-## Contributing
+```bash
+pytest
+```
 
-Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
+### Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue.
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
