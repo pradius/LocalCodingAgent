@@ -1,101 +1,87 @@
 # Local Coding Agent
 
-[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## Overview
-
-Local Coding Agent is a Python-based AI agent designed to understand and execute coding-related tasks. It leverages Large Language Models (LLMs) and a predefined set of tools to automate software development workflows, from code generation and modification to analysis and testing.
-
-The agent is built with modularity and extensibility in mind, allowing developers to easily integrate new LLM providers, add custom tools, and tailor the agent's behavior to specific needs.
-
-## Features
-
-- **Modular Architecture**: A clean separation of concerns between the agent's core logic, LLM interactions, and tool management.
-- **Extensible Toolset**: Easily add new tools for the agent to use (e.g., file system access, code linting, running tests).
-- **Pluggable LLM Providers**: Abstracted LLM interface allows for swapping different language models (e.g., OpenAI, Anthropic, local models) with minimal code changes.
-- **Test-Driven Development**: The project is set up with a comprehensive testing suite using `pytest`.
-- **Modern Python Packaging**: Uses `pyproject.toml` for dependency management and packaging.
+This project provides a framework for creating specialized AI agents for coding tasks. It includes a `BaseAgent` that handles the core logic of interacting with a Large Language Model (LLM) like OpenAI's GPT series.
 
 ## Project Structure
 
 ```
 repo-LocalCodingAgent/
-├── src/
-│   └── local_coding_agent/
+├── app/
+│   ├── __init__.py
+│   └── agents/
 │       ├── __init__.py
-│       ├── agent/
-│       │   ├── __init__.py
-│       │   └── agent.py        # Core agent logic
-│       ├── llm/
-│       │   ├── __init__.py
-│       │   └── llm_provider.py # Abstractions for LLM providers
-│       ├── tools/
-│       │   ├── __init__.py
-│       │   └── tool_manager.py # Tool registration and execution
-│       └── main.py             # Application entry point
+│       └── base_agent.py   # Core agent logic
+├── prompts/
+│   └── system_prompt_template.md # Example system prompt
 ├── tests/
 │   ├── __init__.py
-│   ├── agent/
-│   │   └── test_agent.py
-│   └── tools/
-│       └── test_tool_manager.py
+│   └── test_base_agent.py # Unit tests for the BaseAgent
+├── .env.example            # Example environment variables file
 ├── .gitignore
-├── pyproject.toml
-└── README.md
+├── README.md
+└── requirements.txt        # Project dependencies
 ```
 
-## Getting Started
-
-### Prerequisites
-
-- Python 3.9+
-- pip
-
-### Installation
+## Setup and Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/repo-LocalCodingAgent.git
+    git clone <your-repo-url>
     cd repo-LocalCodingAgent
     ```
 
-2.  **Create and activate a virtual environment:**
+2.  **Create a virtual environment:**
     ```bash
-    python3 -m venv .venv
-    source .venv/bin/activate
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
     ```
 
-3.  **Install the project in editable mode with development dependencies:**
+3.  **Install dependencies:**
     ```bash
-    pip install -e ".[dev]"
+    pip install -r requirements.txt
     ```
 
-### Usage
+4.  **Set up environment variables:**
+    -   Copy the example `.env` file:
+        ```bash
+        cp .env.example .env
+        ```
+    -   Edit the `.env` file and add your OpenAI API key:
+        ```
+        OPENAI_API_KEY="your_openai_api_key_here"
+        ```
 
-The main entry point of the application is `src/local_coding_agent/main.py`.
+## Running Tests
 
-To run the agent, you can execute the main module:
-```bash
-python -m src.local_coding_agent.main
-```
-
-You will need to configure your LLM provider and API keys as required.
-
-## Development
-
-### Running Tests
-
-To ensure the integrity of the codebase, run the test suite using `pytest`:
+To ensure the `BaseAgent` is working correctly, run the unit tests using `pytest`:
 
 ```bash
 pytest
 ```
 
-### Contributing
+## Basic Usage
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue.
+The `BaseAgent` is designed to be imported and used by other, more specific agents. Here's a simple example of how you might use it directly:
 
-## License
+```python
+from app.agents.base_agent import BaseAgent
 
-This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
+# Initialize the agent
+# Make sure 'prompts/system_prompt_template.md' exists
+agent = BaseAgent(
+    model="gpt-4-turbo",
+    system_prompt_path="prompts/system_prompt_template.md",
+    repo_url="https://github.com/example/my-project"
+)
+
+# Run the agent with a user prompt
+user_prompt = "Explain the concept of recursion in Python with a simple code example."
+response = agent.run(user_prompt)
+
+if response:
+    print("AI Response:")
+    print(response)
+else:
+    print("Failed to get a response from the agent.")
+
+```
