@@ -1,0 +1,51 @@
+# Agent Configuration File
+#
+# This file configures the behavior of the AI coding agent, including
+# the Language Learning Model (LLM) to use and other operational parameters.
+
+# --- LLM Configuration ---
+# Specifies which LLM provider and model to use.
+#
+# provider: The LLM service provider.
+#   - "openai": For using OpenAI's models (e.g., gpt-4-turbo).
+#               Requires the OPENAI_API_KEY environment variable to be set.
+#   - "local":  For using a local LLM served via an OpenAI-compatible API,
+#               such as Ollama. Requires 'api_base' to be set.
+#
+# model: The specific model name to use (e.g., "gpt-4-turbo", "llama3").
+#
+# temperature: Controls the randomness of the output. Lower is more deterministic.
+#              Value between 0.0 and 2.0.
+#
+# api_base: (Required for 'local' provider) The base URL of the local LLM server's
+#           API. For Ollama, this is typically "http://localhost:11434/v1".
+#
+# api_key: (Optional for 'local' provider) An API key if your local server requires one.
+#          Defaults to "ollama", which works for a standard Ollama setup.
+
+llm:
+  # --- Option 1: Use a local model with Ollama ---
+  provider: "local"
+  model: "llama3" # Make sure you have pulled this model with `ollama pull llama3`
+  temperature: 0.1
+  api_base: "http://localhost:11434/v1"
+  api_key: "ollama"
+
+  # --- Option 2: Use OpenAI (comment out the 'local' config above) ---
+  # provider: "openai"
+  # model: "gpt-4-turbo"
+  # temperature: 0.1
+
+# --- Project Configuration ---
+# Defines the working directory and other project-specific settings.
+project:
+  root_directory: "./workspace"
+  goal: "Build a simple flask application with a single endpoint that returns 'Hello, World!'"
+
+# --- Agent-specific settings ---
+# You can add more configurations for different agents if needed.
+developer_agent:
+  max_iterations: 10
+
+reviewer_agent:
+  max_reviews: 3
